@@ -1,0 +1,193 @@
+---
+const features = [
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M6 7l2 2-2 2M11 11h4"/></svg>`,
+    title: 'Full VT100 & ANSI',
+    desc: 'Complete terminal emulation with full ANSI escape sequence and VT100 compatibility for every shell and tool.',
+    color: 'cyan',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 6h16M4 12h16M4 18h16"/><rect x="9" y="9" width="6" height="6"/></svg>`,
+    title: 'Split Panes & Tabs',
+    desc: 'Organize your workflow with unlimited split panes (horizontal & vertical) and a powerful tab system.',
+    color: 'green',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`,
+    title: 'GPU Rendering',
+    desc: 'SDL2-powered GPU-accelerated text rendering via FreeType. Zero compromise on performance at any resolution.',
+    color: 'purple',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>`,
+    title: 'PTY Communication',
+    desc: 'Native pseudo-terminal (PTY) integration for flawless process communication and Unix signal handling.',
+    color: 'cyan',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>`,
+    title: 'Scrollback Buffer',
+    desc: 'Unlimited scrollback history with fast search. Never lose a line of output in long-running sessions.',
+    color: 'green',
+  },
+  {
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    title: 'Built-in Tool System',
+    desc: 'Run nmap, btop, vim, reaver and more as integrated tools — straight from your terminal, no setup needed.',
+    color: 'purple',
+  },
+];
+---
+
+<section class="features-section section" id="features">
+  <!-- Three.js background -->
+  <canvas id="features-canvas" class="canvas-bg"></canvas>
+  <div class="bg-grid" style="position:absolute;inset:0;z-index:0;"></div>
+
+  <div class="container content-layer">
+    <!-- Header -->
+    <div class="features-header" data-reveal>
+      <p class="section-label">Core Features</p>
+      <h2 class="features-title">
+        Everything A Power User<br/>
+        <span class="title-gradient">Could Ever Need.</span>
+      </h2>
+      <p class="features-sub">
+        Built from the ground up in C for maximum performance. Every feature is engineered,
+        not bolted on.
+      </p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="features-grid">
+      {features.map((f, i) => (
+        <div
+          class={`feature-card feature-card--${f.color}`}
+          data-reveal
+          data-delay={`${i * 80}`}
+        >
+          <div class="feature-icon">{<Fragment set:html={f.icon} />}</div>
+          <h3 class="feature-title">{f.title}</h3>
+          <p class="feature-desc">{f.desc}</p>
+          <div class="feature-line"></div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .features-section {
+    padding: 8rem 0;
+    min-height: auto;
+    position: relative;
+  }
+
+  .features-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 5rem;
+  }
+  .features-header .section-label {
+    justify-content: center;
+  }
+  .features-header .section-label::before { display: none; }
+  .features-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1.2rem;
+    color: var(--color-white);
+  }
+  .title-gradient {
+    background: linear-gradient(135deg, var(--color-cyan), var(--color-purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .features-sub {
+    color: var(--color-white-dim);
+    font-size: 1.05rem;
+    line-height: 1.7;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .feature-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    right: 0; height: 1px;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  .feature-card--cyan::before { background: linear-gradient(90deg, transparent, var(--color-cyan), transparent); }
+  .feature-card--green::before { background: linear-gradient(90deg, transparent, var(--color-green), transparent); }
+  .feature-card--purple::before { background: linear-gradient(90deg, transparent, var(--color-purple-light), transparent); }
+
+  .feature-card:hover {
+    transform: translateY(-6px);
+  }
+  .feature-card--cyan:hover {
+    border-color: rgba(0, 245, 255, 0.3);
+    box-shadow: 0 20px 50px rgba(0, 245, 255, 0.08), 0 0 0 1px rgba(0,245,255,0.1);
+  }
+  .feature-card--green:hover {
+    border-color: rgba(57, 255, 20, 0.3);
+    box-shadow: 0 20px 50px rgba(57, 255, 20, 0.08), 0 0 0 1px rgba(57,255,20,0.1);
+  }
+  .feature-card--purple:hover {
+    border-color: rgba(168, 85, 247, 0.3);
+    box-shadow: 0 20px 50px rgba(168, 85, 247, 0.08), 0 0 0 1px rgba(168,85,247,0.1);
+  }
+  .feature-card:hover::before { opacity: 1; }
+
+  .feature-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .feature-card--cyan .feature-icon { background: rgba(0,245,255,0.08); color: var(--color-cyan); }
+  .feature-card--green .feature-icon { background: rgba(57,255,20,0.08); color: var(--color-green); }
+  .feature-card--purple .feature-icon { background: rgba(168,85,247,0.08); color: var(--color-purple-light); }
+
+  .feature-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.7rem;
+    color: var(--color-white);
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+  .feature-desc {
+    color: var(--color-white-dim);
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  .feature-line {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    transition: width 0.4s ease;
+  }
+  .feature-card--cyan .feature-line { background: var(--color-cyan); box-shadow: 0 0 8px var(--color-cyan); }
+  .feature-card--green .feature-line { background: var(--color-green); box-shadow: 0 0 8px var(--color-green); }
+  .feature-card--purple .feature-line { background: var(--color-purple-light); box-shadow: 0 0 8px var(--color-purple-light); }
+  .feature-card:hover .feature-line { width: 100%; }
+</style>

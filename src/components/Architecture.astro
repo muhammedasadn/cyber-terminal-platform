@@ -1,0 +1,266 @@
+---
+const layers = [
+  { id: '01', name: 'UI Layer', desc: 'SDL2 window management, input handling, theme engine', color: '#00f5ff' },
+  { id: '02', name: 'Terminal Emulation', desc: 'VT100/ANSI parser, screen buffer, character cell renderer', color: '#7c3aed' },
+  { id: '03', name: 'PTY Manager', desc: 'Pseudo-terminal fork/exec, I/O multiplexing, signals', color: '#39ff14' },
+  { id: '04', name: 'Process Manager', desc: 'Job control, session handling, environment management', color: '#00f5ff' },
+  { id: '05', name: 'Tool Manager', desc: 'Plugin system: nmap, btop, vim, reaver integration', color: '#a855f7' },
+];
+---
+
+<section class="arch-section section" id="architecture">
+  <canvas id="arch-canvas" class="canvas-bg"></canvas>
+
+  <div class="container content-layer">
+    <div class="arch-layout">
+      <!-- Left: Layer list -->
+      <div class="arch-left">
+        <p class="section-label" data-reveal>Architecture</p>
+        <h2 class="arch-title" data-reveal data-delay="80">
+          Modular by Design.<br/>
+          <span class="title-gradient">Clean by Nature.</span>
+        </h2>
+        <p class="arch-desc" data-reveal data-delay="160">
+          Five cleanly separated modules communicate through well-defined interfaces.
+          Each layer can be modified independently — no spaghetti, pure C elegance.
+        </p>
+
+        <div class="layer-list">
+          {layers.map((layer, i) => (
+            <div
+              class="layer-item"
+              data-reveal
+              data-delay={`${240 + i * 80}`}
+              style={`--layer-color: ${layer.color}`}
+            >
+              <div class="layer-id">{layer.id}</div>
+              <div class="layer-info">
+                <h4 class="layer-name">{layer.name}</h4>
+                <p class="layer-desc">{layer.desc}</p>
+              </div>
+              <div class="layer-connector"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Right: 3D visualization -->
+      <div class="arch-right" data-reveal="right" data-delay="200">
+        <canvas id="arch-3d" class="arch-canvas-3d"></canvas>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .arch-section {
+    padding: 8rem 0;
+    min-height: 100vh;
+    position: relative;
+    background: radial-gradient(ellipse 60% 70% at 80% 50%, rgba(124,58,237,0.07) 0%, transparent 70%);
+  }
+
+  .arch-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .arch-title {
+    font-size: clamp(2rem, 3.5vw, 2.8rem);
+    margin-bottom: 1.2rem;
+    color: var(--color-white);
+  }
+  .arch-desc {
+    color: var(--color-white-dim);
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+  }
+
+  .layer-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .layer-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.2rem;
+    padding: 1.2rem 1rem;
+    border-left: 2px solid rgba(255,255,255,0.06);
+    position: relative;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+  }
+  .layer-item:hover {
+    border-left-color: var(--layer-color, var(--color-cyan));
+  }
+  .layer-item:hover .layer-connector {
+    width: 100%;
+  }
+  .layer-connector {
+    position: absolute;
+    bottom: 0; left: 0;
+    height: 1px;
+    width: 0;
+    background: var(--layer-color, var(--color-cyan));
+    opacity: 0.3;
+    transition: width 0.4s ease;
+  }
+
+  .layer-id {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--layer-color, var(--color-cyan));
+    opacity: 0.7;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+  .layer-name {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--color-white);
+    margin-bottom: 0.3rem;
+    letter-spacing: 0.03em;
+  }
+  .layer-desc {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-white-dim);
+    line-height: 1.5;
+  }
+
+  .arch-right {
+    height: 500px;
+    position: relative;
+  }
+  .arch-canvas-3d {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(0,245,255,0.1);
+  }
+
+  @media (max-width: 900px) {
+    .arch-layout { grid-template-columns: 1fr; }
+    .arch-right { height: 350px; }
+  }
+</style>
+
+<script>
+import * as THREE from 'three';
+
+// ─── ARCHITECTURE 3D SCENE ─────────────────────────────────────
+const canvas = document.getElementById('arch-3d') as HTMLCanvasElement;
+if (!canvas) { /* skip if no canvas */ }
+else {
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+const updateSize = () => {
+  const parent = canvas.parentElement!;
+  renderer.setSize(parent.clientWidth, parent.clientHeight);
+  camera.aspect = parent.clientWidth / parent.clientHeight;
+  camera.updateProjectionMatrix();
+};
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+camera.position.set(0, 0, 10);
+
+// Lights
+scene.add(new THREE.AmbientLight(0xffffff, 0.3));
+const cLight = new THREE.PointLight(0x00f5ff, 4, 20);
+cLight.position.set(3, 3, 5);
+scene.add(cLight);
+const pLight = new THREE.PointLight(0x7c3aed, 3, 20);
+pLight.position.set(-3, -2, 4);
+scene.add(pLight);
+
+// ─── FLOATING LAYER PLANES ─────────────────────────────────────
+const colors = [0x00f5ff, 0x7c3aed, 0x39ff14, 0x00f5ff, 0xa855f7];
+const layerPlanes: THREE.Mesh[] = [];
+
+colors.forEach((color, i) => {
+  const geo = new THREE.BoxGeometry(4, 0.6, 0.05);
+  const mat = new THREE.MeshPhongMaterial({
+    color: 0x050510,
+    emissive: new THREE.Color(color).multiplyScalar(0.05),
+    shininess: 80,
+  });
+  const plane = new THREE.Mesh(geo, mat);
+  plane.position.y = 2 - i * 1.1;
+  layerPlanes.push(plane);
+  scene.add(plane);
+
+  // Edge glow
+  const edges = new THREE.LineSegments(
+    new THREE.EdgesGeometry(geo),
+    new THREE.LineBasicMaterial({ color })
+  );
+  edges.position.copy(plane.position);
+  scene.add(edges);
+
+  // Label line
+  const lGeo = new THREE.PlaneGeometry(3.2, 0.06);
+  const lMat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity: 0.6 });
+  const label = new THREE.Mesh(lGeo, lMat);
+  label.position.set(-0.4, 2 - i * 1.1, 0.04);
+  scene.add(label);
+});
+
+// Connecting vertical lines 
+const vertMat = new THREE.LineBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.2 });
+for (let x = -1.5; x <= 1.5; x += 1.5) {
+  const pts = [new THREE.Vector3(x, 3, 0), new THREE.Vector3(x, -3, 0)];
+  const lineGeo = new THREE.BufferGeometry().setFromPoints(pts);
+  scene.add(new THREE.Line(lineGeo, vertMat));
+}
+
+// Particles
+const pCount = 80;
+const pPos = new Float32Array(pCount * 3);
+for (let i = 0; i < pCount; i++) {
+  pPos[i*3] = (Math.random()-0.5)*8;
+  pPos[i*3+1] = (Math.random()-0.5)*8;
+  pPos[i*3+2] = (Math.random()-0.5)*4;
+}
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({ color: 0x00f5ff, size: 0.04, transparent: true, opacity: 0.5 }));
+scene.add(particles);
+
+// Animate
+let t = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  t += 0.008;
+
+  layerPlanes.forEach((p, i) => {
+    p.position.x = Math.sin(t * 0.5 + i * 0.4) * 0.2;
+    p.position.z = Math.cos(t * 0.3 + i * 0.3) * 0.3;
+    p.rotation.y = Math.sin(t * 0.3 + i) * 0.08;
+  });
+
+  particles.rotation.y = t * 0.06;
+  cLight.intensity = 3 + Math.sin(t) * 0.8;
+
+  camera.position.x = Math.sin(t * 0.15) * 1;
+  camera.position.y = Math.cos(t * 0.1) * 0.5;
+  camera.lookAt(0, 0, 0);
+
+  renderer.render(scene, camera);
+}
+
+updateSize();
+animate();
+window.addEventListener('resize', updateSize);
+
+} // end if canvas
+</script>

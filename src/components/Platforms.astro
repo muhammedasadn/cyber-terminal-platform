@@ -1,0 +1,219 @@
+---
+---
+<section class="platforms-section" id="platforms">
+  <div class="container content-layer">
+    <div class="plat-header" data-reveal>
+      <p class="section-label">Cross-Platform</p>
+      <h2 class="plat-title">
+        One Codebase.<br/>
+        <span class="title-gradient">Two Worlds.</span>
+      </h2>
+    </div>
+
+    <div class="platforms-grid">
+      <!-- Linux -->
+      <div class="platform-card" data-reveal data-delay="100">
+        <div class="plat-icon-wrap plat-linux">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C7.03 2 3 6.03 3 11c0 3.05 1.49 5.77 3.77 7.45-.04.17-.07.35-.07.55 0 1.1.9 2 2 2h.76C9.93 21.62 10.94 22 12 22s2.07-.38 2.54-1H15.3c1.1 0 2-.9 2-2 0-.2-.03-.38-.07-.55C19.51 16.77 21 14.05 21 11c0-4.97-4.03-9-9-9z" stroke="#a3a3a3" stroke-width="1.2" fill="rgba(163,163,163,0.05)"/>
+            <circle cx="9" cy="10" r="1.5" fill="#94a3b8"/>
+            <circle cx="15" cy="10" r="1.5" fill="#94a3b8"/>
+            <path d="M9 15c0 0 1 1.5 3 1.5s3-1.5 3-1.5" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="plat-name">Linux</h3>
+        <p class="plat-desc">Native support for all major distros. X11 & Wayland ready. Integrates with GNOME, KDE, and tiling WMs.</p>
+        <div class="plat-tags">
+          <span class="plat-tag">Ubuntu</span>
+          <span class="plat-tag">Arch</span>
+          <span class="plat-tag">Fedora</span>
+          <span class="plat-tag">Debian</span>
+        </div>
+        <div class="plat-terminal">
+          <span class="t-green">user@ubuntu</span>:~$ cyberterm --version<br/>
+          <span class="t-cyan">CyberTerm v1.0.0</span> — GPU Accelerated<br/>
+          <span class="t-dim">Build: gcc 13.2 · SDL2 · FreeType</span>
+        </div>
+      </div>
+
+      <!-- Windows -->
+      <div class="platform-card" data-reveal data-delay="200">
+        <div class="plat-icon-wrap plat-windows">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+            <path d="M3 5.557L10.425 4.5V11.45H3V5.557z" fill="rgba(0,245,255,0.2)" stroke="#00f5ff" stroke-width="0.5"/>
+            <path d="M11.5 4.342L21 3v8.428H11.5V4.342z" fill="rgba(0,245,255,0.12)" stroke="#00f5ff" stroke-width="0.5"/>
+            <path d="M3 12.55h7.425V19.5L3 18.443V12.55z" fill="rgba(0,245,255,0.12)" stroke="#00f5ff" stroke-width="0.5"/>
+            <path d="M11.5 12.55H21V21l-9.5-1.342V12.55z" fill="rgba(0,245,255,0.2)" stroke="#00f5ff" stroke-width="0.5"/>
+          </svg>
+        </div>
+        <h3 class="plat-name">Windows</h3>
+        <p class="plat-desc">Full Windows Terminal compatibility. ConPTY API, registry-free install. Works alongside PowerShell & WSL.</p>
+        <div class="plat-tags">
+          <span class="plat-tag">Win 10</span>
+          <span class="plat-tag">Win 11</span>
+          <span class="plat-tag">WSL2</span>
+          <span class="plat-tag">ConPTY</span>
+        </div>
+        <div class="plat-terminal">
+          <span class="t-cyan">PS</span> C:\&gt; cyberterm --version<br/>
+          <span class="t-cyan">CyberTerm v1.0.0</span> — GPU Accelerated<br/>
+          <span class="t-dim">Build: MSVC 2022 · SDL2 · FreeType</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CMake build note -->
+    <div class="build-note" data-reveal data-delay="300">
+      <div class="build-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-cyan)" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      </div>
+      <div class="build-text">
+        <strong>CMake Build System</strong> — Single command build on both platforms.
+        <code>cmake -B build && cmake --build build</code>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .platforms-section {
+    padding: 8rem 0;
+    position: relative;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(0,245,255,0.03) 0%, transparent 70%);
+  }
+
+  .plat-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .plat-header .section-label { justify-content: center; }
+  .plat-header .section-label::before { display: none; }
+  .plat-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--color-white);
+    margin-top: 0.5rem;
+  }
+  .title-gradient {
+    background: linear-gradient(135deg, var(--color-cyan), var(--color-purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .platforms-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .platform-card {
+    background: rgba(5,5,14,0.8);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2.5rem;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+  }
+  .platform-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(0,245,255,0.25);
+  }
+
+  .plat-icon-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  .plat-linux { background: rgba(163,163,163,0.06); border: 1px solid rgba(163,163,163,0.15); }
+  .plat-windows { background: rgba(0,245,255,0.06); border: 1px solid rgba(0,245,255,0.15); }
+
+  .plat-name {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.8rem;
+    color: var(--color-white);
+  }
+  .plat-desc {
+    color: var(--color-white-dim);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .plat-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+  .plat-tag {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    padding: 0.25rem 0.7rem;
+    border: 1px solid rgba(0,245,255,0.2);
+    color: var(--color-cyan);
+    border-radius: 4px;
+    background: rgba(0,245,255,0.04);
+    letter-spacing: 0.05em;
+  }
+
+  .plat-terminal {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.7;
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    color: var(--color-white-dim);
+  }
+  .t-green { color: var(--color-green); }
+  .t-cyan { color: var(--color-cyan); }
+  .t-dim { color: rgba(148,163,184,0.5); }
+
+  .build-note {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.2rem 1.5rem;
+    background: rgba(0,245,255,0.04);
+    border: 1px solid rgba(0,245,255,0.12);
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .build-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    background: rgba(0,245,255,0.06);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .build-text {
+    font-size: 0.85rem;
+    color: var(--color-white-dim);
+  }
+  .build-text strong { color: var(--color-white); }
+  .build-text code {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-cyan);
+    background: rgba(0,245,255,0.06);
+    padding: 0.1rem 0.4rem;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 0.3rem;
+  }
+
+  @media (max-width: 768px) {
+    .platforms-grid { grid-template-columns: 1fr; }
+  }
+</style>

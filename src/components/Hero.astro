@@ -1,0 +1,779 @@
+---
+---
+<section class="hero-section" id="hero">
+  <!-- Three.js canvas -->
+  <canvas id="hero-canvas" class="hero-canvas"></canvas>
+
+  <!-- Scanline overlay -->
+  <div class="scanlines"></div>
+
+  <!-- Content -->
+  <div class="hero-content container">
+    <div class="hero-inner">
+      <!-- Status badge -->
+      <div class="hero-badge" data-reveal>
+        <span class="badge-dot"></span>
+        <span class="badge-text">v1.0.0 — Open Source · MIT License</span>
+      </div>
+
+      <!-- Headline -->
+      <h1 class="hero-title" data-reveal data-delay="100">
+        <span class="title-line">THE TERMINAL.</span>
+        <span class="title-line title-gradient">REIMAGINED.</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p class="hero-sub" data-reveal data-delay="200">
+        A professional, GPU-accelerated, cross-platform terminal emulator crafted in C.
+        Built for developers who demand performance, flexibility, and control.
+      </p>
+
+      <!-- Terminal prompt animation -->
+      <div class="hero-prompt" data-reveal data-delay="300">
+        <span class="prompt-user">asad@cyberterm</span>
+        <span class="prompt-sep">:</span>
+        <span class="prompt-dir">~</span>
+        <span class="prompt-sym">$</span>
+        <span class="prompt-cmd" id="typed-cmd"></span>
+        <span class="cursor-blink prompt-cursor">█</span>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="hero-cta" data-reveal data-delay="400">
+        <a href="https://github.com" target="_blank" class="btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+          </svg>
+          Star on GitHub
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="#features" class="btn-secondary">
+          Explore Features
+        </a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="hero-stats" data-reveal data-delay="500">
+        <div class="stat-item">
+          <span class="stat-val">10+</span>
+          <span class="stat-label">Core Features</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-val">2</span>
+          <span class="stat-label">Platforms</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-val">100%</span>
+          <span class="stat-label">Open Source</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <span class="stat-val">GPU</span>
+          <span class="stat-label">Accelerated</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="scroll-hint">
+    <span class="scroll-label">SCROLL</span>
+    <div class="scroll-bar">
+      <div class="scroll-bar-fill"></div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 70% 50%, rgba(0, 245, 255, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 20% 80%, rgba(124, 58, 237, 0.08) 0%, transparent 60%),
+                var(--color-bg);
+  }
+
+  .hero-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.06) 2px,
+      rgba(0, 0, 0, 0.06) 4px
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    padding-top: var(--nav-height);
+  }
+
+  .hero-inner {
+    max-width: 640px;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.4rem 1rem;
+    background: rgba(0, 245, 255, 0.06);
+    border: 1px solid rgba(0, 245, 255, 0.2);
+    border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-green);
+    box-shadow: 0 0 8px var(--color-green);
+    animation: pulse-dot 2s infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 8px var(--color-green); }
+    50% { box-shadow: 0 0 16px var(--color-green), 0 0 30px rgba(57,255,20,0.3); }
+  }
+  .badge-text {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--color-cyan);
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title {
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+  .title-line { display: block; color: var(--color-white); }
+  .title-gradient {
+    background: linear-gradient(135deg, var(--color-cyan), var(--color-purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 30px rgba(0,245,255,0.3));
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    color: var(--color-white-dim);
+    line-height: 1.7;
+    max-width: 520px;
+    margin-bottom: 2rem;
+  }
+
+  .hero-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-white-dim);
+    margin-bottom: 2rem;
+    background: rgba(0, 0, 0, 0.45);
+    border: 1px solid rgba(0, 245, 255, 0.12);
+    border-radius: 8px;
+    padding: 0.75rem 1.2rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  .prompt-user { color: var(--color-green); }
+  .prompt-sep, .prompt-sym { color: var(--color-white-dim); }
+  .prompt-dir { color: var(--color-cyan); }
+  .prompt-cmd { color: var(--color-white); }
+  .prompt-cursor { color: var(--color-cyan); font-size: 0.85rem; }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .stat-item { display: flex; flex-direction: column; gap: 0.2rem; }
+  .stat-val {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--color-cyan);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-white-dim);
+  }
+  .stat-divider {
+    width: 1px;
+    height: 36px;
+    background: rgba(0, 245, 255, 0.2);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    z-index: 3;
+  }
+  .scroll-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--color-white-dim);
+  }
+  .scroll-bar {
+    width: 1px;
+    height: 50px;
+    background: rgba(0, 245, 255, 0.2);
+    overflow: hidden;
+  }
+  .scroll-bar-fill {
+    width: 100%;
+    height: 40%;
+    background: var(--color-cyan);
+    box-shadow: 0 0 8px var(--color-cyan);
+    animation: scroll-fill 2s ease-in-out infinite;
+  }
+  @keyframes scroll-fill {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(300%); }
+  }
+</style>
+
+<script>
+import * as THREE from 'three';
+
+const canvas = document.getElementById('hero-canvas') as HTMLCanvasElement;
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x000000, 0);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.2;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 200);
+camera.position.set(0, 1.5, 11);
+camera.lookAt(2, 0, 0);
+
+// ═══ LIGHTING ═══════════════════════════════════════════════
+scene.add(new THREE.AmbientLight(0x020210, 1));
+
+const cyanKey = new THREE.PointLight(0x00f5ff, 60, 30);
+cyanKey.position.set(6, 5, 6);
+cyanKey.castShadow = true;
+scene.add(cyanKey);
+
+const purpleFill = new THREE.PointLight(0x7c3aed, 40, 25);
+purpleFill.position.set(-6, -2, 4);
+scene.add(purpleFill);
+
+const greenRim = new THREE.PointLight(0x39ff14, 20, 20);
+greenRim.position.set(0, -6, 2);
+scene.add(greenRim);
+
+// screen glow light (positioned at 3D terminal screen)
+const screenGlowLight = new THREE.PointLight(0x00f5ff, 15, 8);
+screenGlowLight.position.set(3.5, 0.5, 2.5);
+scene.add(screenGlowLight);
+
+// ═══ MATERIAL HELPERS ═══════════════════════════════════════
+function glassMat(color: number, opacity = 0.9) {
+  return new THREE.MeshPhysicalMaterial({
+    color,
+    transparent: true,
+    opacity,
+    roughness: 0.05,
+    metalness: 0.2,
+    reflectivity: 0.8,
+  });
+}
+function emissiveMat(color: number, emissive: number, intensity = 1) {
+  return new THREE.MeshStandardMaterial({
+    color,
+    emissive: new THREE.Color(emissive),
+    emissiveIntensity: intensity,
+    roughness: 0.3,
+    metalness: 0.6,
+  });
+}
+function darkMat() {
+  return new THREE.MeshStandardMaterial({ color: 0x05050f, roughness: 0.8, metalness: 0.4 });
+}
+function neonEdge(geo: THREE.BufferGeometry, color: number) {
+  return new THREE.LineSegments(new THREE.EdgesGeometry(geo), new THREE.LineBasicMaterial({ color }));
+}
+
+// ═══ MAIN TERMINAL MONITOR ═══════════════════════════════════
+const termGroup = new THREE.Group();
+scene.add(termGroup);
+termGroup.position.set(3.2, 0, 0);
+termGroup.rotation.y = -0.22;
+
+// --- Outer body (bezel) ---
+const bezelW = 5.2, bezelH = 3.4, bezelD = 0.18;
+const bezelGeo = new THREE.BoxGeometry(bezelW, bezelH, bezelD);
+const bezelMesh = new THREE.Mesh(bezelGeo, darkMat());
+bezelMesh.castShadow = true;
+termGroup.add(bezelMesh);
+
+// Bezel glow edges
+const bezelEdge = neonEdge(bezelGeo, 0x00f5ff);
+termGroup.add(bezelEdge);
+
+// Corner accents (small glowing squares at each corner)
+const accentGeo = new THREE.BoxGeometry(0.18, 0.18, 0.02);
+const accentMat = emissiveMat(0x000000, 0x00f5ff, 3);
+[[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx, sy]) => {
+  const ac = new THREE.Mesh(accentGeo, accentMat);
+  ac.position.set(sx * (bezelW/2 - 0.12), sy * (bezelH/2 - 0.12), bezelD/2 + 0.01);
+  termGroup.add(ac);
+});
+
+// --- Screen (dark panel) ---
+const screenW = 4.7, screenH = 2.95;
+const screenGeo = new THREE.PlaneGeometry(screenW, screenH);
+const screenMat = new THREE.MeshBasicMaterial({ color: 0x000508 });
+const screenMesh = new THREE.Mesh(screenGeo, screenMat);
+screenMesh.position.z = bezelD / 2 + 0.002;
+termGroup.add(screenMesh);
+
+// --- Screen scanline overlay texture ---
+const scanCanvas = document.createElement('canvas');
+scanCanvas.width = 4; scanCanvas.height = 4;
+const sc = scanCanvas.getContext('2d')!;
+sc.fillStyle = 'rgba(0,0,0,0)'; sc.fillRect(0,0,4,4);
+sc.fillStyle = 'rgba(0,0,0,0.18)'; sc.fillRect(0,2,4,2);
+const scanTex = new THREE.CanvasTexture(scanCanvas);
+scanTex.wrapS = scanTex.wrapT = THREE.RepeatWrapping;
+scanTex.repeat.set(screenW * 14, screenH * 14);
+const scanPlane = new THREE.Mesh(
+  new THREE.PlaneGeometry(screenW, screenH),
+  new THREE.MeshBasicMaterial({ map: scanTex, transparent: true, opacity: 0.5, depthWrite: false })
+);
+scanPlane.position.z = bezelD / 2 + 0.004;
+termGroup.add(scanPlane);
+
+// --- Titlebar ---
+const titlebarGeo = new THREE.PlaneGeometry(screenW, 0.24);
+const titlebarMat = new THREE.MeshBasicMaterial({ color: 0x0a1520 });
+const titlebar = new THREE.Mesh(titlebarGeo, titlebarMat);
+titlebar.position.set(0, screenH / 2 - 0.12, bezelD / 2 + 0.005);
+termGroup.add(titlebar);
+
+// Titlebar dots (close / min / max)
+const dotColors = [0xff5f56, 0xffbd2e, 0x27c93f];
+dotColors.forEach((c, i) => {
+  const dot = new THREE.Mesh(
+    new THREE.CylinderGeometry(0.05, 0.05, 0.005, 16),
+    new THREE.MeshBasicMaterial({ color: c })
+  );
+  dot.rotation.x = Math.PI / 2;
+  dot.position.set(-2.1 + i * 0.2, screenH / 2 - 0.12, bezelD / 2 + 0.007);
+  termGroup.add(dot);
+});
+
+// Titlebar text strip
+const titleLabelGeo = new THREE.PlaneGeometry(1.2, 0.1);
+const titleLabelMat = new THREE.MeshBasicMaterial({ color: 0x1a3040, transparent: true, opacity: 0.8 });
+const titleLabel = new THREE.Mesh(titleLabelGeo, titleLabelMat);
+titleLabel.position.set(0, screenH / 2 - 0.12, bezelD / 2 + 0.006);
+termGroup.add(titleLabel);
+
+// --- Vertical divider (split pane) ---
+const dividerGeo = new THREE.PlaneGeometry(0.015, screenH - 0.24);
+const dividerMat = new THREE.MeshBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.6 });
+const divider = new THREE.Mesh(dividerGeo, dividerMat);
+divider.position.set(0.85, -0.12, bezelD / 2 + 0.006);
+termGroup.add(divider);
+
+// Divider glow
+const divGlow = new THREE.Mesh(
+  new THREE.PlaneGeometry(0.05, screenH - 0.24),
+  new THREE.MeshBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.08 })
+);
+divGlow.position.copy(divider.position);
+divGlow.position.z -= 0.001;
+termGroup.add(divGlow);
+
+// --- LEFT PANE: Code lines ---
+function addCodeLine(x: number, y: number, width: number, color: number, opacity = 0.7) {
+  const geo = new THREE.PlaneGeometry(width, 0.045);
+  const mat = new THREE.MeshBasicMaterial({ color, transparent: true, opacity });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(x, y, bezelD / 2 + 0.008);
+  termGroup.add(mesh);
+  return mesh;
+}
+
+// Left pane (main code area)
+const leftX = -0.9;
+const codeLines = [
+  { y: 1.1, w: 1.5, color: 0xa855f7, op: 0.85 },  // #include
+  { y: 0.95, w: 1.2, color: 0x00f5ff, op: 0.8 },
+  { y: 0.80, w: 0.4, color: 0x7c3aed, op: 0.6 },
+  { y: 0.65, w: 1.8, color: 0x39ff14, op: 0.9 },  // main func
+  { y: 0.50, w: 0.6, color: 0x00f5ff, op: 0.7 },
+  { y: 0.35, w: 2.1, color: 0x94a3b8, op: 0.5 },
+  { y: 0.20, w: 1.6, color: 0x00f5ff, op: 0.75 },
+  { y: 0.05, w: 0.9, color: 0x39ff14, op: 0.7 },
+  { y: -0.10, w: 2.0, color: 0x94a3b8, op: 0.45 },
+  { y: -0.25, w: 1.4, color: 0xa855f7, op: 0.7 },
+  { y: -0.40, w: 1.1, color: 0x00f5ff, op: 0.6 },
+  { y: -0.55, w: 1.9, color: 0x39ff14, op: 0.5 },
+  { y: -0.70, w: 0.7, color: 0x94a3b8, op: 0.4 },
+  { y: -0.85, w: 1.3, color: 0x00f5ff, op: 0.65 },
+];
+codeLines.forEach(l => addCodeLine(leftX - (1.6 - l.w)/2, l.y, l.w, l.color, l.op));
+
+// Line number gutter (left side)
+for (let i = 0; i < 14; i++) {
+  const gn = new THREE.Mesh(
+    new THREE.PlaneGeometry(0.12, 0.04),
+    new THREE.MeshBasicMaterial({ color: 0x2a3a4a, transparent: true, opacity: 0.6 })
+  );
+  gn.position.set(-2.15, 1.1 - i * 0.15, bezelD / 2 + 0.008);
+  termGroup.add(gn);
+}
+
+// Cursor line highlight
+const cursorHighlight = new THREE.Mesh(
+  new THREE.PlaneGeometry(screenW * 0.37, 0.075),
+  new THREE.MeshBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.07 })
+);
+cursorHighlight.position.set(leftX, 0.05, bezelD / 2 + 0.007);
+termGroup.add(cursorHighlight);
+
+// Blinking cursor rect
+const cursorRect = new THREE.Mesh(
+  new THREE.PlaneGeometry(0.04, 0.075),
+  new THREE.MeshBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 1 })
+);
+cursorRect.position.set(-0.2, 0.05, bezelD / 2 + 0.009);
+termGroup.add(cursorRect);
+
+// --- RIGHT PANE: Terminal output ---
+const rightX = 1.8;
+
+// Prompt line
+const promptLine = new THREE.Mesh(
+  new THREE.PlaneGeometry(2.2, 0.05),
+  new THREE.MeshBasicMaterial({ color: 0x39ff14, transparent: true, opacity: 0.8 })
+);
+promptLine.position.set(rightX - 0.2, 1.05, bezelD / 2 + 0.008);
+termGroup.add(promptLine);
+
+// Output lines (terminal text)
+const rightLines = [
+  { y: 0.88, w: 2.4, color: 0x94a3b8 },
+  { y: 0.73, w: 1.8, color: 0x00f5ff },
+  { y: 0.58, w: 2.5, color: 0x39ff14 },
+  { y: 0.43, w: 2.0, color: 0x94a3b8 },
+  { y: 0.28, w: 1.6, color: 0x00f5ff },
+  { y: 0.13, w: 2.3, color: 0x94a3b8 },
+  { y: -0.02, w: 1.4, color: 0x39ff14 },
+  { y: -0.17, w: 2.1, color: 0x94a3b8 },
+  { y: -0.32, w: 2.4, color: 0x00f5ff },
+  { y: -0.47, w: 1.9, color: 0xff2d55 },
+  { y: -0.62, w: 2.2, color: 0x39ff14 },
+  { y: -0.77, w: 1.6, color: 0x94a3b8 },
+];
+rightLines.forEach(l => addCodeLine(rightX - (2.4 - l.w)/2 - 0.05, l.y, l.w, l.color, 0.65));
+
+// Status bar at bottom
+const statusBarGeo = new THREE.PlaneGeometry(screenW, 0.14);
+const statusBar = new THREE.Mesh(
+  statusBarGeo,
+  new THREE.MeshBasicMaterial({ color: 0x003a50 })
+);
+statusBar.position.set(0, -screenH / 2 + 0.07, bezelD / 2 + 0.006);
+termGroup.add(statusBar);
+
+// Status bar accent line
+const statusLine = new THREE.Mesh(
+  new THREE.PlaneGeometry(screenW, 0.008),
+  new THREE.MeshBasicMaterial({ color: 0x00f5ff, transparent: true, opacity: 0.8 })
+);
+statusLine.position.set(0, -screenH / 2 + 0.14, bezelD / 2 + 0.007);
+termGroup.add(statusLine);
+
+// Status pills
+[[- 1.8, 0x39ff14, 0.6], [-0.8, 0x00f5ff, 0.5], [0.5, 0x94a3b8, 0.4], [1.7, 0xa855f7, 0.5]].forEach(([x, c, w]: any) => {
+  const pill = new THREE.Mesh(
+    new THREE.PlaneGeometry(w, 0.07),
+    new THREE.MeshBasicMaterial({ color: c, transparent: true, opacity: 0.7 })
+  );
+  pill.position.set(x, -screenH/2 + 0.07, bezelD/2 + 0.008);
+  termGroup.add(pill);
+});
+
+// --- STAND ---
+const standBody = new THREE.Mesh(
+  new THREE.BoxGeometry(0.16, 1.1, 0.16),
+  darkMat()
+);
+standBody.position.y = -(bezelH / 2 + 0.55);
+termGroup.add(standBody);
+
+const standBase = new THREE.Mesh(
+  new THREE.BoxGeometry(2.0, 0.08, 0.7),
+  darkMat()
+);
+standBase.position.y = -(bezelH / 2 + 1.1);
+termGroup.add(standBase);
+
+const baseEdge = neonEdge(new THREE.BoxGeometry(2.0, 0.08, 0.7), 0x00f5ff);
+baseEdge.position.copy(standBase.position);
+termGroup.add(baseEdge);
+
+// ═══ FLOATING MINI TERMINAL WINDOWS ══════════════════════════
+function createMiniTerminal(w: number, h: number, color: number) {
+  const g = new THREE.Group();
+
+  // Frame
+  const frame = new THREE.Mesh(
+    new THREE.BoxGeometry(w, h, 0.06),
+    new THREE.MeshStandardMaterial({ color: 0x06060f, roughness: 0.9, metalness: 0.3 })
+  );
+  g.add(frame);
+
+  // Screen
+  const scrn = new THREE.Mesh(
+    new THREE.PlaneGeometry(w - 0.1, h - 0.1),
+    new THREE.MeshBasicMaterial({ color: 0x020510 })
+  );
+  scrn.position.z = 0.034;
+  g.add(scrn);
+
+  // Edge glow
+  const edge = neonEdge(new THREE.BoxGeometry(w, h, 0.06), color);
+  g.add(edge);
+
+  // Screen lines
+  const lineCount = Math.floor((h - 0.2) / 0.14);
+  for (let i = 0; i < lineCount; i++) {
+    const lw = (0.4 + Math.random() * 0.5) * (w - 0.2);
+    const lColor = [color, 0x39ff14, 0x94a3b8][Math.floor(Math.random() * 3)];
+    const ln = new THREE.Mesh(
+      new THREE.PlaneGeometry(lw, 0.04),
+      new THREE.MeshBasicMaterial({ color: lColor, transparent: true, opacity: 0.6 })
+    );
+    ln.position.set(-(w/2 - 0.15 - lw/2) + (w - 0.2 - lw)/2 * 0, - h/2 + 0.25 + i * 0.14, 0.036);
+    g.add(ln);
+  }
+
+  // Titlebar
+  const tb = new THREE.Mesh(
+    new THREE.PlaneGeometry(w - 0.1, 0.1),
+    new THREE.MeshBasicMaterial({ color: 0x0a1a24 })
+  );
+  tb.position.set(0, h/2 - 0.1, 0.035);
+  g.add(tb);
+
+  return g;
+}
+
+// Left floating mini terminal
+const miniLeft = createMiniTerminal(1.8, 1.2, 0x7c3aed);
+miniLeft.position.set(-1.5, 2.2, -1.5);
+miniLeft.rotation.y = 0.3;
+miniLeft.rotation.x = -0.1;
+scene.add(miniLeft);
+
+// Right floating mini terminal
+const miniRight = createMiniTerminal(1.6, 1.0, 0x39ff14);
+miniRight.position.set(6.5, -1.8, -1);
+miniRight.rotation.y = -0.4;
+miniRight.rotation.x = 0.1;
+scene.add(miniRight);
+
+// Far back mini terminal
+const miniBack = createMiniTerminal(1.4, 0.9, 0xa855f7);
+miniBack.position.set(7.5, 2.5, -3);
+miniBack.rotation.y = -0.6;
+scene.add(miniBack);
+
+// ═══ CONNECTING CIRCUIT LINES ════════════════════════════════
+function makeDashedLine(from: THREE.Vector3, to: THREE.Vector3, color: number) {
+  const pts = [];
+  const steps = 8;
+  for (let i = 0; i <= steps; i++) {
+    if (i % 2 === 0) {
+      pts.push(from.clone().lerp(to, i/steps));
+    } else {
+      pts.push(from.clone().lerp(to, (i-0.3)/steps));
+    }
+  }
+  const geo = new THREE.BufferGeometry().setFromPoints(pts);
+  return new THREE.Line(geo, new THREE.LineBasicMaterial({ color, transparent: true, opacity: 0.3 }));
+}
+
+// Circuit-like connections between terminals
+scene.add(makeDashedLine(
+  new THREE.Vector3(1.5, 1.2, 0),
+  new THREE.Vector3(-1.5, 2.2, -1.5),
+  0x00f5ff
+));
+scene.add(makeDashedLine(
+  new THREE.Vector3(5, -0.5, 0),
+  new THREE.Vector3(6.5, -1.8, -1),
+  0x39ff14
+));
+
+// ═══ PARTICLE FIELD ══════════════════════════════════════════
+const pCount = 250;
+const pPos = new Float32Array(pCount * 3);
+const pCol = new Float32Array(pCount * 3);
+
+for (let i = 0; i < pCount; i++) {
+  pPos[i*3]   = (Math.random() - 0.5) * 28;
+  pPos[i*3+1] = (Math.random() - 0.5) * 18;
+  pPos[i*3+2] = (Math.random() - 0.5) * 14;
+  const r = Math.random();
+  if (r < 0.5) { pCol[i*3]=0; pCol[i*3+1]=0.96; pCol[i*3+2]=1; }       // cyan
+  else if (r < 0.8) { pCol[i*3]=0.48; pCol[i*3+1]=0.22; pCol[i*3+2]=0.93; } // purple
+  else { pCol[i*3]=0.22; pCol[i*3+1]=1; pCol[i*3+2]=0.08; }             // green
+}
+
+const pGeo = new THREE.BufferGeometry();
+pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+pGeo.setAttribute('color', new THREE.BufferAttribute(pCol, 3));
+const particles = new THREE.Points(pGeo, new THREE.PointsMaterial({
+  size: 0.045, vertexColors: true, transparent: true, opacity: 0.65, sizeAttenuation: true,
+}));
+scene.add(particles);
+
+// ═══ GROUND GRID ═════════════════════════════════════════════
+const gridHelper = new THREE.GridHelper(40, 40, 0x00f5ff, 0x00f5ff);
+(Array.isArray(gridHelper.material) ? gridHelper.material : [gridHelper.material]).forEach(m => {
+  (m as THREE.Material).transparent = true;
+  (m as THREE.Material).opacity = 0.04;
+});
+gridHelper.position.y = -5;
+scene.add(gridHelper);
+
+// ═══ ANIMATION ═══════════════════════════════════════════════
+let t = 0;
+let mouseX = 0, mouseY = 0;
+let camX = 0, camY = 1.5;
+
+function animate() {
+  requestAnimationFrame(animate);
+  t += 0.006;
+
+  // Float main terminal
+  termGroup.position.y = Math.sin(t * 0.7) * 0.18;
+  termGroup.rotation.y = -0.22 + Math.sin(t * 0.3) * 0.04;
+  termGroup.rotation.x = Math.sin(t * 0.4) * 0.02;
+
+  // Float mini terminals
+  miniLeft.position.y = 2.2 + Math.sin(t * 0.9 + 1) * 0.2;
+  miniLeft.rotation.z = Math.sin(t * 0.4) * 0.03;
+  miniRight.position.y = -1.8 + Math.sin(t * 0.8 + 2) * 0.18;
+  miniRight.rotation.z = Math.sin(t * 0.5 + 1) * 0.025;
+  miniBack.position.y = 2.5 + Math.sin(t * 1.1 + 0.5) * 0.15;
+
+  // Cursor blink
+  cursorRect.material.opacity = Math.floor(t * 1.5) % 2 === 0 ? 1 : 0;
+
+  // Pulse lights
+  cyanKey.intensity = 55 + Math.sin(t * 1.4) * 8;
+  purpleFill.intensity = 35 + Math.sin(t * 0.9 + 1) * 6;
+  screenGlowLight.intensity = 12 + Math.sin(t * 2) * 4;
+
+  // Scroll particles slowly
+  particles.rotation.y = t * 0.025;
+  particles.rotation.x = t * 0.008;
+
+  // Mouse parallax camera
+  const targetX = mouseX * 0.6;
+  const targetY = 1.5 + mouseY * 0.4;
+  camX += (targetX - camX) * 0.04;
+  camY += (targetY - camY) * 0.04;
+  camera.position.x = camX;
+  camera.position.y = camY;
+  camera.lookAt(2, 0.2, 0);
+
+  renderer.render(scene, camera);
+}
+animate();
+
+// Mouse parallax
+document.addEventListener('mousemove', (e) => {
+  mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+  mouseY = -(e.clientY / window.innerHeight - 0.5) * 2;
+});
+
+// Resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+
+// ═══ TYPING EFFECT ═══════════════════════════════════════════
+const commands = [
+  'cyberterm --version',
+  'cyberterm --split horizontal',
+  'run btop --gpu-stats',
+  'cyberterm --theme cyberpunk',
+  'nmap -sV 192.168.1.1',
+];
+let cmdIdx = 0, charIdx = 0, isDeleting = false;
+const cmdEl = document.getElementById('typed-cmd');
+
+function typeEffect() {
+  if (!cmdEl) return;
+  const cur = commands[cmdIdx];
+  cmdEl.textContent = isDeleting ? cur.slice(0, --charIdx) : cur.slice(0, ++charIdx);
+  if (!isDeleting && charIdx === cur.length) {
+    setTimeout(() => { isDeleting = true; typeEffect(); }, 2000); return;
+  }
+  if (isDeleting && charIdx === 0) {
+    isDeleting = false;
+    cmdIdx = (cmdIdx + 1) % commands.length;
+  }
+  setTimeout(typeEffect, isDeleting ? 38 : 68);
+}
+setTimeout(typeEffect, 800);
+</script>

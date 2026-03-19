@@ -1,0 +1,38 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Features from '../components/Features.astro';
+import Architecture from '../components/Architecture.astro';
+import Tools from '../components/Tools.astro';
+import Platforms from '../components/Platforms.astro';
+import Stats from '../components/Stats.astro';
+import CTA from '../components/CTA.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Cyber Terminal — GPU-Accelerated Open Source Terminal Emulator"
+  description="A professional cross-platform terminal emulator written in C. GPU-accelerated, with ANSI/VT100 support, split panes, tabs, and built-in tools like nmap, btop, and vim."
+>
+  <Nav />
+  <Hero />
+
+  <div class="section-divider"></div>
+  <Features />
+
+  <div class="section-divider"></div>
+  <Architecture />
+  
+  <div class="section-divider"></div>
+  <Tools />
+  
+  <div class="section-divider"></div>
+  <Platforms />
+
+  <Stats />
+
+  <CTA />
+
+  <Footer />
+</Layout>

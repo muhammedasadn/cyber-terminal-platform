@@ -1,0 +1,235 @@
+---
+const tools = [
+  {
+    name: 'btop',
+    desc: 'Resource monitor with full system metrics — CPU, memory, disk, network. GPU stats inline.',
+    tag: 'System Monitor',
+    cmd: 'cyberterm run btop',
+    color: '#39ff14',
+  },
+  {
+    name: 'nmap',
+    desc: 'Network exploration and security auditing tool. Scan ports, detect services, map your network.',
+    tag: 'Network Scanner',
+    cmd: 'cyberterm run nmap -sV 192.168.1.0/24',
+    color: '#00f5ff',
+  },
+  {
+    name: 'vim',
+    desc: 'The classic, powerful text editor. Full syntax highlighting and plugin support inside Cyber Terminal.',
+    tag: 'Text Editor',
+    cmd: 'cyberterm run vim main.c',
+    color: '#a855f7',
+  },
+  {
+    name: 'reaver',
+    desc: 'WPS PIN brute-force tool for authorized wireless security testing. No external setup required.',
+    tag: 'Security Tool',
+    cmd: 'cyberterm run reaver -i wlan0mon',
+    color: '#ff2d55',
+  },
+];
+---
+
+<section class="tools-section" id="tools">
+  <canvas id="tools-canvas" class="canvas-bg" style="position:absolute;inset:0;"></canvas>
+
+  <div class="container content-layer">
+    <!-- Header -->
+    <div class="tools-header " data-reveal>
+      <p class="section-label">Built-in Tools</p>
+      <h2 class="tools-title">
+        Your Toolkit,<br/>
+        <span class="title-gradient">Already Installed.</span>
+      </h2>
+      <p class="tools-sub">
+        Run powerful tools as first-class integrations — no apt install, no PATH issues.
+        Just type and run.
+      </p>
+    </div>
+
+    <!-- Tools Showcase -->
+    <div class="tools-grid">
+      {tools.map((tool, i) => (
+        <div
+          class="tool-card"
+          data-reveal
+          data-delay={`${i * 100}`}
+          style={`--tool-color: ${tool.color}`}
+        >
+          <div class="tool-header">
+            <div class="tool-dot"></div>
+            <div class="tool-dot"></div>
+            <div class="tool-dot"></div>
+            <span class="tool-label">{tool.tag}</span>
+          </div>
+          <div class="tool-screen">
+            <div class="tool-prompt">
+              <span class="t-user">root@cyberterm</span><span class="t-sep">:</span><span class="t-dir">~</span><span class="t-sym">$</span>
+              <span class="t-cmd">{tool.cmd}</span>
+            </div>
+            <div class="tool-name-big">{tool.name}</div>
+            <p class="tool-desc">{tool.desc}</p>
+          </div>
+          <div class="tool-footer">
+            <span class="tool-status">
+              <span class="status-dot"></span>
+              Active
+            </span>
+            <span class="tool-version">v2.1.0</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tools-section {
+    padding: 8rem 0;
+    position: relative;
+    overflow: hidden;
+    background: radial-gradient(ellipse 60% 80% at 20% 50%, rgba(0,245,255,0.04) 0%, transparent 70%);
+  }
+
+  .tools-header {
+    text-align: center;
+    max-width: 580px;
+    margin: 0 auto 4rem;
+  }
+  .tools-header .section-label {
+    justify-content: center;
+  }
+  .tools-header .section-label::before { display: none; }
+  .tools-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    margin-bottom: 1.2rem;
+    color: var(--color-white);
+  }
+  .title-gradient {
+    background: linear-gradient(135deg, var(--color-cyan), var(--color-purple-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .tools-sub {
+    color: var(--color-white-dim);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .tools-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .tool-card {
+    background: rgba(5, 5, 14, 0.9);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .tool-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--tool-color);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px color-mix(in srgb, var(--tool-color) 15%, transparent);
+  }
+
+  .tool-header {
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    padding: 0.7rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .tool-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+  }
+  .tool-dot:first-child { background: #ff5f56; }
+  .tool-dot:nth-child(2) { background: #ffbd2e; }
+  .tool-dot:nth-child(3) { background: #27c93f; }
+  .tool-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-white-dim);
+    letter-spacing: 0.08em;
+    margin-left: auto;
+    text-transform: uppercase;
+  }
+
+  .tool-screen {
+    padding: 1.5rem;
+  }
+  .tool-prompt {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    margin-bottom: 1.2rem;
+    color: var(--color-white-dim);
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+  .t-user { color: var(--color-green); }
+  .t-sep, .t-dir { color: var(--color-white-dim); }
+  .t-dir { color: var(--color-cyan); }
+  .t-sym { color: var(--color-white-dim); }
+  .t-cmd { color: var(--color-white); font-size: 0.68rem; }
+
+  .tool-name-big {
+    font-family: var(--font-display);
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--tool-color);
+    text-shadow: 0 0 20px color-mix(in srgb, var(--tool-color) 40%, transparent);
+    margin-bottom: 0.7rem;
+    letter-spacing: 0.02em;
+  }
+
+  .tool-desc {
+    font-size: 0.85rem;
+    color: var(--color-white-dim);
+    line-height: 1.6;
+  }
+
+  .tool-footer {
+    padding: 0.8rem 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .tool-status {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-green);
+  }
+  .status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-green);
+    box-shadow: 0 0 6px var(--color-green);
+    animation: pulse-dot 2s infinite;
+  }
+  .tool-version {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--color-white-dim);
+    opacity: 0.6;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { box-shadow: 0 0 6px var(--color-green); }
+    50% { box-shadow: 0 0 14px var(--color-green); }
+  }
+</style>

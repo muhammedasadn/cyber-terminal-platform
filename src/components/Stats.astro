@@ -1,0 +1,98 @@
+---
+const stats = [
+  { value: '10+', label: 'Core Modules', desc: 'Cleanly separated architecture layers' },
+  { value: '2', label: 'Platforms', desc: 'Linux & Windows native support' },
+  { value: '4+', label: 'Built-in Tools', desc: 'nmap, btop, vim, reaver & more' },
+  { value: '100%', label: 'Open Source', desc: 'MIT licensed, forever free' },
+];
+---
+
+<section class="stats-section" id="stats">
+  <div class="container">
+    <div class="stats-inner">
+      <div class="stats-label" data-reveal>By The Numbers</div>
+      <div class="stats-grid">
+        {stats.map((s, i) => (
+          <div class="stat-card" data-reveal data-delay={`${i * 80}`}>
+            <div class="stat-number" data-value={s.value}>{s.value}</div>
+            <div class="stat-name">{s.label}</div>
+            <div class="stat-detail">{s.desc}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stats-section {
+    padding: 6rem 0;
+    position: relative;
+    border-top: 1px solid rgba(0,245,255,0.08);
+    border-bottom: 1px solid rgba(0,245,255,0.08);
+    background: rgba(0,245,255,0.015);
+  }
+  .stats-inner {
+    text-align: center;
+  }
+  .stats-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--color-cyan);
+    margin-bottom: 3rem;
+    opacity: 0.7;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: rgba(0,245,255,0.08);
+    border: 1px solid rgba(0,245,255,0.08);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .stat-card {
+    background: var(--color-bg);
+    padding: 3rem 2rem;
+    text-align: center;
+    transition: background 0.3s ease;
+  }
+  .stat-card:hover {
+    background: rgba(0,245,255,0.03);
+  }
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--color-cyan);
+    text-shadow: 0 0 30px rgba(0,245,255,0.4);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    transition: text-shadow 0.3s ease;
+  }
+  .stat-card:hover .stat-number {
+    text-shadow: 0 0 50px rgba(0,245,255,0.7);
+  }
+  .stat-name {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--color-white);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+  .stat-detail {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-white-dim);
+    opacity: 0.7;
+  }
+  @media (max-width: 768px) {
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 480px) {
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+</style>
